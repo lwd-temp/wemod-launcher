@@ -4,7 +4,7 @@ import shutil
 import sys
 import os
 import subprocess
-from util import cache, exit_with_message, get_dotnet48, popup_dowload, wine, winetricks, log, popup_execute, pip, popup_options
+from util import cache, exit_with_message, get_dotnet48, popup_dowload, wine, winetricks, log, popup_execute, pip, popup_options, execute
 from setup import main
 
 SCRIPT_PATH=os.path.dirname(os.path.realpath(__file__))
@@ -38,6 +38,21 @@ def init(proton:str) -> None:
   proton_dir.append("bin")
   proton_dir = "/".join(proton_dir)
   log("Using wine from Proton at path: '{}'".format(proton_dir))
+
+  # region Symlink wemod_data
+  log("Adding WeMod data symlink...")
+  source_dir = os.path.join(SCRIPT_PATH, "wemod_data")
+  target_dir = os.path.join(WINEPREFIX, "drive_c/users/steamuser/AppData/Roaming/WeMod")
+  
+  command = "ln -s '{}' '{}'".format(source_dir, target_dir)
+  exit_code = execute(command)
+
+  if exit_code == 0:
+    log("Linked wemod_data successfully")
+  else:
+    exit_message = "Linking wemod_data failed with code '{}'".format(exit_code)
+    exit_with_message("ERROR", exit_message, exit_code)
+  # endregion
 
   if prefix_op == "build":
     build_prefix(proton_dir)
