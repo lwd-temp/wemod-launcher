@@ -56,6 +56,22 @@ def popup_options(title:str, message:str, options:list[str]) -> str:
 
   return selected
 
+def execute(command:str, onwrite:Callable[[str], None] = None) -> int:
+  import subprocess as sp
+  exitcode = -1
+
+  process = sp.Popen(command, stdout=subprocess.PIPE, shell=True)
+  for line in iter(process.stdout.readline,''):
+    if line == None or line == b'':
+      break
+    s_line = line.decode("utf8")
+    log(s_line)
+    if onwrite != None:
+      onwrite(s_line)
+  exitcode = process.wait()
+  
+  return exitcode
+
 def popup_execute(title:str, command:str, onwrite:Callable[[str], None] = None) -> int:
   import PySimpleGUI as sg
   import subprocess as sp
