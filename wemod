@@ -63,11 +63,7 @@ def download_prefix(proton_dir:str) -> None:
   from shutil import which
   import PySimpleGUI as sg
 
-<<<<<<< HEAD
   path = os.path.join(SCRIPT_PATH, "bin") + ":" + proton_dir + ":" + os.getenv("PATH")
-=======
-  path = proton_dir + ":" + os.getenv("PATH")
->>>>>>> 886072f (fix: prefix_download, wemod.bat case, dotnet48 setup 194 ignore)
 
   file_name = "wemod_prefix.tar.zst"
   link = "https://danimv.top/storage/" + file_name
@@ -176,8 +172,6 @@ def run(skip_init=False):
 
   if len(CORRECT_PATH) > 0:
     WIN_CMD = WIN_CMD[WIN_CMD.index(CORRECT_PATH[0]):]
-
-<<<<<<< HEAD
   
   WIN_CMD_SPLIT = WIN_CMD.split(".exe")
   WIN_CMD = WIN_CMD_SPLIT[0] + ".exe"
@@ -187,10 +181,7 @@ def run(skip_init=False):
     LAUNCH_OPTIONS = ".exe".join(WIN_CMD_SPLIT[1:])
 
   FINAL=REAPER_CMD + " -- " + PROTON + " waitforexitandrun "  + WEMOD_BAT + " \"" + WIN_CMD + "\"" + LAUNCH_OPTIONS
-=======
-  FINAL=REAPER_CMD + " -- " + PROTON + " waitforexitandrun "  + WEMOD_BAT + " \"" + WIN_CMD + "\""
-  # log("ARGS:\n\n" + " ".join(sys.argv) + " \n\n")
->>>>>>> 886072f (fix: prefix_download, wemod.bat case, dotnet48 setup 194 ignore)
+  
   log("Executing:\n\t{}\n".format(FINAL))
 
   process = subprocess.Popen(FINAL, stdout=subprocess.PIPE, shell=True)
